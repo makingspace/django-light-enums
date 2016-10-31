@@ -1,0 +1,29 @@
+language: python
+
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+
+env:
+  - DJANGO="django==1.8.7"
+  - DJANGO="django==1.9"
+  - DJANGO="django==1.10"
+
+install:
+  - pip install $DJANGO
+  - pip install six==1.10.0
+  - pip install coveralls mock factory_boy
+
+script:
+  - coverage run --source=umeboshi setup.py test
+
+after_success:
+  coveralls
+
+notifications:
+  email:
+    recipients:
+      - dhites@makespace.com
+    on_success: change
+    on_failure: change
