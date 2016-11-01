@@ -61,4 +61,4 @@ class EnumFieldTests(TestCase):
                 obj.save()
 
     def test_choices(self):
-        self.assertEqual(Status.choices(), Status._enum_values.items())
+        self.assertEqual(Status.choices(), list(Status._enum_values.items()))

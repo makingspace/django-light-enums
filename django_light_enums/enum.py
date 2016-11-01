@@ -35,7 +35,7 @@ class EnumType(type):
         return cls._enum_values.values()
 
     def choices(cls):
-        return cls._enum_values.items()
+        return list(cls._enum_values.items())
 
     def name_values(cls):
         return [(name, value) for value, name in cls.choices()]
