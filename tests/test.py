@@ -59,3 +59,7 @@ class EnumFieldTests(TestCase):
             with self.assertRaises(ValidationError):
                 obj.status = INVALID_VALUE
                 obj.save()
+
+    def test_choices(self):
+        self.assertEqual(Status.choices(), Status._choices)
+        self.assertFalse(Status.choices() is Status._choices)

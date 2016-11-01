@@ -2,6 +2,7 @@ from six import with_metaclass
 
 from .db import EnumField
 
+EnumField = EnumField
 
 class EnumType(type):
 
@@ -30,6 +31,9 @@ class EnumType(type):
     @property
     def enum_names(cls):
         return cls._enum_values.values()
+
+    def choices(cls):
+        return list(cls._choices)
 
 
 class Enum(with_metaclass(EnumType)):
