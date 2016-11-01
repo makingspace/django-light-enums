@@ -4,22 +4,24 @@ from .db import EnumField
 
 EnumField = EnumField
 
+
 class EnumType(type):
 
     def __new__(mcl, name, bases, nmspc):
         cls = super(EnumType, mcl).__new__(mcl, name, bases, nmspc)
         cls._enum_values = {
             value: field for field, value in cls.__dict__.items()
-            if not callable(value) and not field.startswith('__')
+            if not callable(value) and not field.startswith('_')
         }
-        cls._choices = [(value, field) for field, value in cls._enum_values.items()]
         return cls
 
     def get_name(cls, value):
-        return cls._enum_values[value]
+        return cls._enum_values.get(value)
 
     def get_value(cls, name):
-        return getattr(cls, name)
+        if not name:
+            return None
+        return getattr(cls, name, None)
 
     def is_valid_value(cls, value):
         return value in cls._enum_values.keys()
@@ -33,7 +35,10 @@ class EnumType(type):
         return cls._enum_values.values()
 
     def choices(cls):
-        return list(cls._choices)
+        return cls._enum_values.items()
+
+    def name_values(cls):
+        return [(name, value) for value, name in cls.choices()]
 
 
 class Enum(with_metaclass(EnumType)):
