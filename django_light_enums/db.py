@@ -9,14 +9,17 @@ class EnumField(IntegerField):
     """
 
     def __init__(self, enum, *args, **kwargs):
-        kwargs['choices'] = enum._choices
-        kwargs.setdefault('default', min(enum._enum_values.keys()))
+        kwargs['choices'] = enum.choices
+        kwargs.setdefault('default', min(enum.enum_values))
         self.enum = enum
         return super(EnumField, self).__init__(*args, **kwargs)
 
     def pre_save(self, model_instance, add):
         value = getattr(model_instance, self.attname)
-        if value not in self.enum._enum_values.keys():
+        if value is None:
+            if not self.null:
+                raise ValidationError(_('None is not a valid value in this non-null enum.'))
+        elif not self.enum.is_valid_value(value):
             raise ValidationError(
                 _('(%(value)s) is not a valid value in this enum. '
                   'Possible values are: %(values)s.'),
@@ -24,7 +27,7 @@ class EnumField(IntegerField):
                     'value': value,
                     'values': ', '.join(
                         '{} ({})'.format(name, value)
-                        for value, name in self.enum._enum_values.items()
+                        for value, name in self.enum.choices
                     ),
                 },
             )
