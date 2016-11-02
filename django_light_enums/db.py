@@ -9,7 +9,7 @@ class EnumField(IntegerField):
     """
 
     def __init__(self, enum, *args, **kwargs):
-        kwargs['choices'] = enum.choices()
+        kwargs['choices'] = enum.choices
         kwargs.setdefault('default', min(enum.enum_values))
         self.enum = enum
         return super(EnumField, self).__init__(*args, **kwargs)
@@ -19,7 +19,7 @@ class EnumField(IntegerField):
         if value is None:
             if not self.null:
                 raise ValidationError(_('None is not a valid value in this non-null enum.'))
-        elif value not in self.enum.enum_values:
+        elif not self.enum.is_valid_value(value):
             raise ValidationError(
                 _('(%(value)s) is not a valid value in this enum. '
                   'Possible values are: %(values)s.'),
@@ -27,7 +27,7 @@ class EnumField(IntegerField):
                     'value': value,
                     'values': ', '.join(
                         '{} ({})'.format(name, value)
-                        for value, name in self.enum.choices()
+                        for value, name in self.enum.choices
                     ),
                 },
             )

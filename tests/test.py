@@ -25,7 +25,7 @@ class EnumTests(TestCase):
                 (Status.STATUS_TWO, 'STATUS_TWO'),
                 (Status.STATUS_THREE, 'STATUS_THREE')
             ],
-            Status.choices()
+            Status.choices
         )
 
 
@@ -61,4 +61,4 @@ class EnumFieldTests(TestCase):
                 obj.save()
 
     def test_choices(self):
-        self.assertEqual(Status.choices(), list(Status._enum_values.items()))
+        self.assertEqual(Status.choices, list(Status._enum_values.items()))
