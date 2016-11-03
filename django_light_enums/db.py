@@ -9,9 +9,9 @@ class EnumField(IntegerField):
     """
 
     def __init__(self, enum=None, enum_values=None, choices=None, default=None, *args, **kwargs):
-        choices = choices or enum.choices
-        default = default or min(enum.enum_values)
-        self.enum_values = enum_values or enum.enum_values
+        choices = choices if choices is not None else enum.choices
+        default = default if default is not None else min(enum.enum_values)
+        self.enum_values = enum_values if enum_values is not None else enum.enum_values
         return super(EnumField, self).__init__(choices=choices, default=default, *args, **kwargs)
 
     def pre_save(self, model_instance, add):
