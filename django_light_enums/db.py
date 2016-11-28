@@ -1,4 +1,4 @@
-from django.db.models import IntegerField
+from django.db.models.fields import IntegerField, NOT_PROVIDED
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
@@ -8,9 +8,9 @@ class EnumField(IntegerField):
     Implements storage of an enum value in a db field
     """
 
-    def __init__(self, enum=None, enum_values=None, choices=None, default=None, *args, **kwargs):
+    def __init__(self, enum=None, enum_values=None, choices=None, default=NOT_PROVIDED, *args, **kwargs):
         choices = choices if choices is not None else enum.choices
-        default = default if default is not None else min(enum.enum_values)
+        default = default if default is not NOT_PROVIDED else min(enum.enum_values)
         self.enum_values = enum_values if enum_values is not None else enum.enum_values
         return super(EnumField, self).__init__(choices=choices, default=default, *args, **kwargs)
 
