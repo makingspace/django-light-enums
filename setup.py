@@ -40,7 +40,7 @@ class RunTests(Command):
         pass
 setup(
     name="django-light-enums",
-    version="0.1.5",
+    version="0.1.6",
     author="MakeSpace Labs, Inc.",
     author_email="dhites@makespace.com",
     description="django-light-enums is a ligthweigth implementation of enums for Django.",
