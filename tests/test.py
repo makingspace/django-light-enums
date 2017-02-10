@@ -28,6 +28,11 @@ class EnumTests(TestCase):
             Status.choices
         )
 
+    def test_enum_is_valid_name(self):
+        self.assertTrue(Status.is_valid_name('STATUS_ONE'))
+        self.assertTrue(Status.is_valid_name('STATUS_TWO'))
+        self.assertTrue(Status.is_valid_name('STATUS_THREE'))
+        self.assertFalse(Status.is_valid_name('STATUS_ZERO'))
 
 class EnumFieldTests(TestCase):
 

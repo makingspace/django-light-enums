@@ -26,6 +26,9 @@ class EnumType(type):
     def is_valid_value(cls, value):
         return value in cls._enum_values.keys()
 
+    def is_valid_name(cls, value):
+        return value in cls._enum_values.values()
+
     @property
     def enum_values(cls):
         return cls._enum_values.keys()
