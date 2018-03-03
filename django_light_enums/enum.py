@@ -36,7 +36,7 @@ class EnumType(type):
 
     @property
     def choices(cls):
-        return list(cls._enum_values.items())
+        return sorted(cls._enum_values.items(), key=lambda x: x[0])
 
     @property
     def choices_inverse(cls):
