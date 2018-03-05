@@ -28,19 +28,23 @@ class EnumType(type):
 
     @property
     def enum_values(cls):
-        return cls._enum_values.keys()
+        return sorted(cls._enum_values.keys())
 
     @property
     def enum_names(cls):
-        return cls._enum_values.values()
+        return [v for k, v in sorted(
+            cls._enum_values.items(), key=lambda x: x[0])]
 
     @property
     def choices(cls):
-        return list(cls._enum_values.items())
+        return sorted(cls._enum_values.items(), key=lambda x: x[0])
 
     @property
     def choices_inverse(cls):
-        return [(name, value) for value, name in cls._enum_values.items()]
+        return sorted(
+            ((name, value) for value, name in cls._enum_values.items()),
+            key=lambda x: x[1]
+        )
 
 
 class Enum(with_metaclass(EnumType)):
